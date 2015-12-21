@@ -48,7 +48,7 @@ char num_reg_nat [sizeNumRegNat] ;
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom et sa date de naissance.
  */
-
+typedef struct clientB clientB;
 struct clientB{
 
 char nom [sizeNom];
