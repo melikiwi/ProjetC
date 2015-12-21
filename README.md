@@ -15,4 +15,6 @@ pre = precondition c'est a dire les conditions dans lequelles doivent être les 
 post = postcondition c'est a dire ce que la fonction fait ou renvoi.
 
 les methode int enterNumber(int size);, int stringToNumber(char* tab); et int checkNumber(char* tab);, ont été ecrite pour verifier que l'utilisateur rentre bien un nombre. Leurs descriptions sont dans la cdoc au dessus des dites fonctions.
+
+la methode main est juste la pour les test!
 }
