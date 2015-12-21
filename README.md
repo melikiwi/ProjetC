@@ -10,8 +10,8 @@ les commentaires en debut de methode : /**
                                         *@pre:
                                         *@post:
                                         */
-sont ce qu'on appel la cdoc comme vous avez sans doute vu la javadoc au cours de java
-pre = precondition c'est a dire les conditions dans lequelles doivent être les variables passées en argument avant l'exécution de la methode
+sont ce qu'on appel la cdoc comme vous avez sans doute vu la javadoc au cours de java.  
+pre = precondition c'est a dire les conditions dans lequelles doivent être les variables passées en argument avant l'exécution de la methode.  
 post = postcondition c'est a dire ce que la fonction fait ou renvoi.
 
 les methode int enterNumber(int size);, int stringToNumber(char* tab); et int checkNumber(char* tab);, ont été ecrite pour verifier que l'utilisateur rentre bien un nombre. Leurs descriptions sont dans la cdoc au dessus des dites fonctions.
