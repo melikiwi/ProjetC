@@ -599,9 +599,9 @@ int checkNumber(char* tab){
 
 	//Declaration et initialisation des variables.
 	int  i, boolean;
-	boolean = 1;
 
 	//Bloc d'instruction.
+	boolean = isEmpty(tab);
 	for(i = 0; tab[i] != '\0' && boolean; i++){
 		if(tab[i] > 57 || tab[i] < 48){//Verifie que le caractere est un chiffre.
 			boolean = 0;
