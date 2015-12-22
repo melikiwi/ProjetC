@@ -28,8 +28,14 @@ int enterNumber(int size);
 int stringToNumber(char* tab);
 int checkNumber(char* tab);
 struct clientA encodenouvclientA(void);
+struct clientB encodenouvclientB(void);
 void stringcopy (char* source, char* destination);
+void fillTabStructA(struct clientA* tab, int top, int end);
+void fillTabStructB(struct clientB* tab, int top, int end);
 void structclientAcopy (struct clientA source, struct clientA* destination);
+void structclientBcopy (struct clientB source, struct clientB* destination);
+void printTabStructA(struct clientA* tab, int size);
+void printTabStructB(struct clientB* tab, int size);
 
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son numero de compte et son numero
@@ -48,7 +54,7 @@ char num_reg_nat [sizeNumRegNat] ;
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom et sa date de naissance.
  */
-
+typedef struct clientB clientB;
 struct clientB{
 
 char nom [sizeNom];
@@ -57,14 +63,10 @@ char datenaiss [sizeDateNaiss] ;
 };
 
 main(){
-	clientA client;
-	structclientAcopy (encodenouvclientA(), &client);
+	struct clientA client[10];
 	system("cls");
-	puts(client.nom);
-	puts(client.prenom);
-	puts(client.datenaiss);
-	puts(client.num_compte);
-	puts(client.num_reg_nat);
+	fillTabStructA(client, 0, 1);
+	printTabStructA(client, 2);
 }
 
 /**
@@ -556,8 +558,8 @@ int enterNumber(int size){
 		}
 		while(!(checkNumber(tab)));//Boucle verifiant que c'est bien un nombre qui a ete saisi.
 		number = stringToNumber(tab);//Converti la chaine en entier.
-		if(number > size){//Verifie que le nombre ne depasse pas size.
-			printf("Vous avez rentr%c un nombre trop grand, recommencez!\n",130);
+		if(number > size || number < 1){//Verifie que le nombre ne depasse pas size.
+			printf("Vous avez rentr%c un nombre invalide!\n",130);
 		}
 		else{
 			boolean = 0;
@@ -599,9 +601,9 @@ int checkNumber(char* tab){
 
 	//Declaration et initialisation des variables.
 	int  i, boolean;
-	boolean = 1;
 
 	//Bloc d'instruction.
+	boolean = isEmpty(tab);
 	for(i = 0; tab[i] != '\0' && boolean; i++){
 		if(tab[i] > 57 || tab[i] < 48){//Verifie que le caractere est un chiffre.
 			boolean = 0;
@@ -612,10 +614,10 @@ int checkNumber(char* tab){
 }
 
 /**
- *Methode permettant a l'utilisateur d'encoder un client.
+ *Methode permettant a l'utilisateur d'encoder un client type A.
  *
  *@pre:/
- *@post: Remplit un "client" avec les donnees rentrees par l'utilisateur apres avoir verifier leur validite.
+ *@post: Remplit un "clientB" avec les donnees rentrees par l'utilisateur apres avoir verifier leur validite.
  */
 struct clientA encodenouvclientA(void){
 
@@ -628,6 +630,21 @@ struct clientA encodenouvclientA(void){
 	return(client);
 }
 
+/**
+ *Methode permettant a l'utilisateur d'encoder un client type B.
+ *
+ *@pre:/
+ *@post: Remplit un "clientB" avec les donnees rentrees par l'utilisateur apres avoir verifier leur validite.
+ */
+struct clientB encodenouvclientB(void){
+
+	//Bloc d'instruction.
+	clientB client;
+	enterName(client.nom);
+	enterFirstName(client.prenom);
+	enterDateOfBirth(client.datenaiss);
+	return(client);
+}
 /**
  *Methode qui copie le contenu d'un tableau dans un autre.
  *
@@ -644,7 +661,41 @@ void stringcopy (char* source, char* destination){
 	for(i = 0; source[i] != '\0'; i++){
 		destination[i] = source[i];
 	}
-	destination[i] = '\0';
+	destination[i] = '\0';//Ajoute a la fin de la chaine le caractere de fin de chaine.
+}
+
+/**
+ *Methode remplissant un tableau de structure clientA avec les entres utilisateurs.
+ *
+ *@pre: top >= 0; end > 0 && end > top.
+ *@post: Remplit tab de clientA de top, l'indice de départ jusqu'a end l'indice de fin.
+ */
+void fillTabStructA(struct clientA* tab, int top, int end){
+
+	//Declaration et initialisation des variables.
+	int i;
+
+	//Bloc d'instruction.
+	for(i = top; i <= end; i++){
+		structclientAcopy(encodenouvclientA(), &(tab[i]));
+	}
+}
+
+/**
+ *Methode remplissant un tableau de structure clientB avec les entres utilisateurs.
+ *
+ *@pre: top >= 0; end > 0 && end > top.
+ *@post: Remplit tab de clientB de top, l'indice de départ jusqu'a end l'indice de fin.
+ */
+void fillTabStructB(struct clientB* tab, int top, int end){
+
+	//Declaration et initialisation des variables.
+	int i;
+
+	//Bloc d'instruction.
+	for(i = top; i <= end; i++){
+		structclientBcopy(encodenouvclientB(), &(tab[i]));
+	}
 }
 
 /**
@@ -662,4 +713,76 @@ void structclientAcopy (struct clientA source, struct clientA* destination){
 	stringcopy(source.datenaiss, (*destination).datenaiss);
 	stringcopy(source.num_compte, (*destination).num_compte);
 	stringcopy(source.num_reg_nat, (*destination).num_reg_nat);
+}
+
+/**
+ *Methode qui copie le contenu d'une structure dans une autre.
+ *
+ *@pre:/
+ *@post: Copie les informations se trouvant dans la structure clientB source et de les placer dans la structure clientB dont destination contient
+ *l’adresse.
+ */
+ void structclientBcopy (struct clientB source, struct clientB* destination){
+
+    //Bloc d'instruction.
+	stringcopy(source.nom, (*destination).nom);
+	stringcopy(source.prenom, (*destination).prenom);
+	stringcopy(source.datenaiss, (*destination).datenaiss);
+ }
+
+/**
+ *Methode affichant les clients de la banque A.
+ *
+ *@pre: Il doit il y avoir au moins un client dans tab.
+ *@post: Affiche tous les clientA contenu dans tab.
+ */
+void printTabStructA(struct clientA* tab, int size){
+
+    //Declaration et initialisation des variables.
+    int i;
+
+    //Bloc d'instruction.
+    system("cls");
+    printf("Client de la banque A:\n");
+    for(i = 0; i < size; i++){//Boucle parcourant le tableau de structure.
+		//Affichage des informations du client.
+        printf("Client n%c%d\n",167,i+1);
+        printf("Nom : ");
+        puts(tab[i].nom);
+		printf("Prenom : ");
+        puts(tab[i].prenom);
+		printf("Date de naissance : ");
+        puts(tab[i].datenaiss);
+		printf("Numero de registre national : ");
+        puts(tab[i].num_reg_nat);
+		printf("Numero de compte : ");
+        puts(tab[i].num_compte);
+        printf("\n");
+    }
+}
+
+/**
+ *Methode affichant les clients de la banque B.
+ *
+ *@pre: Il doit il y avoir au moins un client dans tab.
+ *@post: Affiche tous les clientB contenu dans tab.
+ */
+void printTabStructB(struct clientB* tab, int size){
+
+    //Declaration et initialisation des variables.
+    int i;
+
+    //Bloc d'instruction.
+    system("cls");
+    printf("Clients de la banque B:\n");
+    for(i = 0; i < size; i++){//Boucle parcourant le tableau de structure.
+		//Affichage des informations du client.
+        printf("Client n%c%d\n",167,i+1);
+        printf("Nom : ");
+        puts(tab[i].nom);
+		printf("Prenom : ");
+        puts(tab[i].prenom);
+		printf("Date de naissance : ");
+        printf("\n");
+    }
 }
