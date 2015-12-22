@@ -714,6 +714,7 @@ void structclientAcopy (struct clientA source, struct clientA* destination){
 	stringcopy(source.num_compte, (*destination).num_compte);
 	stringcopy(source.num_reg_nat, (*destination).num_reg_nat);
 }
+<<<<<<< HEAD
 
 /**
  *Methode qui copie le contenu d'une structure dans une autre.
@@ -786,3 +787,5 @@ void printTabStructB(struct clientB* tab, int size){
         printf("\n");
     }
 }
+=======
+>>>>>>> origin/master
