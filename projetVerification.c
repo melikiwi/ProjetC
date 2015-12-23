@@ -43,6 +43,11 @@ int structcompA(struct clientA* A,struct clientA* B);
 int structcompB(struct clientB* A,struct clientB* B);
 void quicksortA(struct clientA* tab, int inf, int sup);
 void quicksortB(struct clientB* tab, int inf, int sup);
+int concat(char* source, char* destination, int indice);
+void structAToString(struct clientA client, char* tab);
+void structBToString(struct clientB client, char* tab);
+void saveCustomersA(struct clientA* tabClient, int size, int fileNumber);
+void saveCustomersB(struct clientB* tabClient, int size, int fileNumber);
 
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son numero de compte et son numero
@@ -71,13 +76,14 @@ char datenaiss [sizeDateNaiss] ;
 
 main(){
 
-	struct clientA unsort[10];
-	struct clientA triNom[10];
+	struct clientA sourceA[10];
+	struct clientA trinomA[10];
 	system("cls");
-	fillTabStructA(unsort, 0, 1);
-	structTabACopy(unsort, triNom,2);
-	quicksortA(triNom, 0, 1);
-	printTabStructA(triNom, 2);
+	fillTabStructA(sourceA, 0, 1);
+	structTabACopy(sourceA, trinomA,2);
+	quicksortA(trinomA, 0, 1);
+	printTabStructA(trinomA, 2);
+	saveCustomersA(trinomA, 2, 0);
 }
 
 /**
@@ -895,7 +901,7 @@ int structcompB(struct clientB* A,struct clientB* B){
 }
 
 /**
- *Methode de tri de tableau de structure clientA.
+ *Fonction de tri de tableau de structure clientA.
  *
  *@pre: Le tableau contient au moin une structure initalisee.
  *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
@@ -937,7 +943,7 @@ void quicksortA(struct clientA* tab, int inf, int sup){
 }
 
 /**
- *Methode de tri de tableau de structure clientB.
+ *Fonction de tri de tableau de structure clientB.
  *
  *@pre: Le tableau contient au moin une structure initalisee.
  *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
@@ -975,5 +981,125 @@ void quicksortB(struct clientB* tab, int inf, int sup){
 	}
 	if(i<sup){
 		quicksortB(tab,i,sup);
+	}
+}
+
+/**
+ *Fonction additionnant 2 String.
+ *
+ *@pre: indice >= 0; source et destination doivent être non null.
+ *@post: Place dans destiantion le contenu de source de indice au caractère de fin de chaine '\0' contenu dans source, puis ajoute un espace
+ *       blanc a la fin de la chaine.
+ */
+int concat(char* source, char* destination, int indice){
+
+	 //Declaration et initialisation des variables.
+	 int i;
+
+	 //Bloc d'instruction.
+	 for(i = 0; source[i] != '\0'; i++){
+		 destination[indice] = source[i];
+		 indice++;
+	 }
+	 destination[indice] = ' ';//Ajoute u n espace a la fin de la chaine.
+	 indice++;//Incremente indice pour pouvoir continue a remplir destination ulterieurement.
+	 return(indice);
+ }
+
+/**
+ *Fonction transformant un clientA en chaine de caractere.
+ *
+ *@pre: client doit avoir ete initialise.
+ *@post: Place dans tab toutes les informations de client dans l'orde: nom, prenom, date de naissance, numero de registre national, numero de compte.
+ */
+void structAToString(struct clientA client, char* tab){
+
+	//Declaration et initialisation des variables.
+	int indice = 0;
+
+	//Bloc d'instruction.
+	indice = concat(client.nom, tab, indice);
+	indice = concat(client.prenom, tab, indice);
+	indice = concat(client.datenaiss, tab, indice);
+	indice = concat(client.num_reg_nat, tab, indice);
+	indice = concat(client.num_compte, tab, indice);
+	tab[indice] = '\0';
+}
+
+/**
+ *Fonction transformant un clientB en chaine de caractere.
+ *
+ *@pre: client doit avoir ete initialise.
+ *@post: Place dans tab toutes les informations de client dans l'orde: nom, prenom, date de naissance.
+ */
+void structBToString(struct clientB client, char* tab){
+
+	//Declaration et initialisation des variables.
+	int indice = 0;
+
+	//Bloc d'instruction.
+	indice = concat(client.nom, tab, indice);
+	indice = concat(client.prenom, tab, indice);
+	indice = concat(client.datenaiss, tab, indice);
+	tab[indice] = '\0'; //Place a la fin de tab, la marque de fin de chaine.
+}
+
+/**
+ *Fonction remplissant un fichier de clientA.
+ *
+ *@pre: Au moins un client doit avoir ete initialise dans tabClient, size > 0.
+ *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas, il est cree.
+ */
+void saveCustomersA(struct clientA* tabClient, int size, int fileNumber){
+
+	//Declaration et initialisation des variables.
+	FILE* file = NULL;
+	int i;
+	//Chaine de caractere contenant toutes les informations d'un client, 108 etant le nombre maximal de caractere contenu dans un client plus la marque de fin de chaine.
+	char tab[108];
+
+	//Bloc d'instruction.
+	if(fileNumber){
+		file = fopen("sourceA.txt","w");//Overture du fichier
+	}
+	else{
+		file = fopen("trinomA.txt","w");//Overture du fichier
+	}
+	if(file != NULL){//Si le fichier existe.
+		for(i = 0; i < size; i++){
+			structAToString((tabClient[i]), tab);//Convertit les info d'un client en chaine de caractere.
+			fprintf(file,"%s\n",tab);//Ecrit dans le fichier.
+		}
+		fclose(file);//Ferme le fichier.
+	}
+}
+
+/**
+ *Fonction remplissant un fichier de clientB.
+ *
+ *@pre: Au moins un client doit avoir ete initialise dans tabClient, size > 0.
+ *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas, il est cree.
+ */
+void saveCustomersB(struct clientB* tabClient, int size, int fileNumber){
+
+	//Declaration et initialisation des variables.
+	FILE* file = NULL;
+	int i;
+	//Chaine de caractere contenant toutes les informations d'un client, 108 etant le nombre maximal de caractere contenu dans un client plus la marque de fin de chaine.
+	char tab[108];
+
+	//Bloc d'instruction.
+	if(fileNumber){
+		file = fopen("sourceB.txt","w");//Overture du fichier
+	}
+	else{
+		file = fopen("trinomB.txt","w");//Overture du fichier
+	}
+	if(file != NULL){//Si le fichier existe.
+		for(i = 0; i < size; i++){
+			structBToString((tabClient[i]), tab);//Convertit les info d'un client en chaine de caractere.
+			fprintf(file,"%s\n",tab);//Ecrit dans le fichier.
+		}
+		fclose(file);//Ferme le fichier.
 	}
 }
