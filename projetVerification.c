@@ -36,6 +36,13 @@ void structclientAcopy (struct clientA source, struct clientA* destination);
 void structclientBcopy (struct clientB source, struct clientB* destination);
 void printTabStructA(struct clientA* tab, int size);
 void printTabStructB(struct clientB* tab, int size);
+void structTabACopy(struct clientA* source, struct clientA* destination, int size);
+void structTabBCopy(struct clientB* source, struct clientB* destination, int size);
+int stringcomp(char* A, char* B);
+int structcompA(struct clientA* A,struct clientA* B);
+int structcompB(struct clientB* A,struct clientB* B);
+void quicksortA(struct clientA* tab, int inf, int sup);
+void quicksortB(struct clientB* tab, int inf, int sup);
 
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son numero de compte et son numero
@@ -63,10 +70,14 @@ char datenaiss [sizeDateNaiss] ;
 };
 
 main(){
-	struct clientA client[10];
+
+	struct clientA unsort[10];
+	struct clientA triNom[10];
 	system("cls");
-	fillTabStructA(client, 0, 1);
-	printTabStructA(client, 2);
+	fillTabStructA(unsort, 0, 1);
+	structTabACopy(unsort, triNom,2);
+	quicksortA(triNom, 0, 1);
+	printTabStructA(triNom, 2);
 }
 
 /**
@@ -368,7 +379,7 @@ void enterName(char* tab){
 
     //Declaration et initialisation des variables.
 	char tempon[100];
-	int boolean;//Variable passant a 0 (faux) lorsque l'utilisateur entre un nom valide.
+	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un nom valide.
 
 	//Bloc d'instruction.
 	system("cls");//Clear consol.
@@ -377,14 +388,12 @@ void enterName(char* tab){
 		printf("Veuillez entrer le nom du client en majuscule!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNom)){//Verifie que l'utilisateur n'as pas depasse la longueur maximale.
+		if(checkSize(tempon,sizeNom) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
-			if(isEmpty(tab)){//Verifie que la saisie n'est pas vide.
-				boolean = verifnom(tab);
-			}
+            boolean = verifnom(tab);
 		}
 	}
-	while(boolean != 1);
+	while(!boolean);
 }
 
 /**
@@ -397,23 +406,20 @@ void enterFirstName(char* tab){
 
     //Declaration et initialisation des variables.
 	char tempon[100];
-	int boolean;//Variable passant a 0 (faux) lorsque l'utilisateur entre un prenom valide.
+	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un prenom valide.
 
 	//Bloc d'instruction.
 	system("cls");//Clear consol.
-	viderBuffer();
 	do{
 		printf("Veuillez entrer le prenom du client en majuscule!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizePrenom)){//Verifie que l'utilisateur n'as pas depasse la longueur maximale.
-			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
-			if(isEmpty(tab)){//Verifie que la saisie n'est pas vide.
-				boolean = verifprenom(tab);
-			}
+		if(checkSize(tempon,sizePrenom) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+            stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
+            boolean = verifprenom(tab);
 		}
 	}
-	while(boolean !=1);
+	while(!boolean);
 }
 
 /**
@@ -426,23 +432,20 @@ void enterDateOfBirth(char* tab){
 
     //Declaration et initialisation des variables.
 	char tempon[100];
-	int boolean;//Variable passant a 0 (faux) lorsque l'utilisateur entre une date valide.
+	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre une date valide.
 
 	//Bloc d'instruction.
 	system("cls");//Clear consol.
-	viderBuffer();
 	do{
 		printf("Veuillez entrer la date de naissance du client sous le format jj/mm/aaaa!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeDateNaiss)){//Verifie que l'utilisateur n'as pas depasse la longueur maximale.
+		if(checkSize(tempon,sizeDateNaiss) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
-			if(isEmpty(tab)){//Verifie que la saisie n'est pas vide.
-				boolean = verifdatenaiss(tab);
-			}
+            boolean = verifdatenaiss(tab);
 		}
 	}
-	while(boolean !=1);
+	while(!boolean);
  }
 
 /**
@@ -455,23 +458,20 @@ void enterAccountNumber(char* tab){
 
     //Declaration et initialisation des variables.
 	char tempon[100];
-	int boolean;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
+	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
 
 	//Bloc d'instruction.
 	system("cls");//Clear consol.
-	viderBuffer();
 	do{
 		printf("Veuillez entrer le numero de compte du client sous le format BExx xxxx xxxx xxxx!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNumCompte)){//Verifie que l'utilisateur n'as pas depasse la longueur maximale.
+		if(checkSize(tempon,sizeNumCompte) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
-			if(isEmpty(tab)){//Verifie que la saisie n'est pas vide.
-				boolean = verifnumcompte(tab);
-			}
+            boolean = verifnumcompte(tab);
 		}
 	}
-	while(boolean != 1);
+	while(!boolean);
  }
 
  /**
@@ -484,23 +484,20 @@ void enterNationalRegistryNumber(char* tab){
 
     //Declaration et initialisation des variables.
 	char tempon[100];
-	int boolean;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
+	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
 
 	//Bloc d'instruction.
 	system("cls");//Clear consol.
-	viderBuffer();
 	do{
 		printf("Veuillez entrer le numero de registre national du client sous le format xxxxxx-xxx-xx!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNumRegNat)){//Verifie que l'utilisateur n'as pas depasse la longueur maximale.
+		if(checkSize(tempon,sizeNumRegNat) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
-			if(isEmpty(tab)){//Verifie que la saisie n'est pas vide.
-				boolean = verifnumregnat(tab);
-			}
+            boolean = verifnumregnat(tab);
 		}
 	}
-	while(boolean != 1);
+	while(!boolean);
  }
 
 /**
@@ -714,7 +711,6 @@ void structclientAcopy (struct clientA source, struct clientA* destination){
 	stringcopy(source.num_compte, (*destination).num_compte);
 	stringcopy(source.num_reg_nat, (*destination).num_reg_nat);
 }
-<<<<<<< HEAD
 
 /**
  *Methode qui copie le contenu d'une structure dans une autre.
@@ -787,5 +783,197 @@ void printTabStructB(struct clientB* tab, int size){
         printf("\n");
     }
 }
-=======
->>>>>>> origin/master
+
+/**
+ *Methode copiant un tableau de clientA.
+ *
+ *@pre: Il doit il y avoir au moins un client dans source.
+ *@post: Copie les elements du tableau source dans le tableau destination.
+ */
+void structTabACopy(struct clientA* source, struct clientA* destination, int size){
+
+	//Declaration et initialisation des variables.
+	int i;
+
+	//Bloc d'instruction.
+	for(i = 0; i < size; i++){
+		structclientAcopy(source[i], &(destination[i]));
+	}
+}
+
+/**
+ *Methode copiant un tableau de clientB.
+ *
+ *@pre: Il doit il y avoir au moins un client dans source.
+ *@post: Copie les elements du tableau source dans le tableau destination.
+ */
+void structTabBCopy(struct clientB* source, struct clientB* destination, int size){
+
+	//Declaration et initialisation des variables.
+	int i;
+
+	//Bloc d'instruction.
+	for(i = 0; i < size; i++){
+		structclientBcopy(source[i], &(destination[i]));
+	}
+}
+
+/**
+ *Methode qui verifie l'ordre lexicographique.
+ *
+ *@pre/
+ *@post: Renvoie la valeur 0 si les chaînes A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
+ *       l’ordre lexicographique.
+ */
+int stringcomp(char* A, char* B){
+
+    //Declaration et initialisation des variables.
+    int place = 0;
+    int i;
+
+    //Bloc d'instruction.
+    for(i = 0; (A[i] != '\0' || B[i] != '\0') && place == 0; i++){//Parcour les caracteres et les compare.
+		if(A[i] < B[i]){
+			place = 1;
+		}
+		else if(A[i] > B[i]){
+			place = -1;
+		}
+    }
+    /*Si les deux chaines sont identiques du premier caractere jusqu'au dernier caractere de la chaine la plus petite verifie si il ne reste pas
+     *d'autre caractère et continue la comparaison.
+     */
+    if(place == 0){
+		if(A[i] == '\0' && B[i] != '\0'){
+			place = 1;
+		}
+		if(B[i] == '\0' && A[i] != '\0'){
+			place = -1;
+		}
+    }
+    return place;
+}
+
+/**
+ *Methode comparant 2 structures clientA.
+ *
+ *@pre : Les 2 structures ont ete initialisee.
+ *@post : Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
+ *l’ordre lexicographique.
+ */
+int structcompA(struct clientA* A,struct clientA* B){
+
+    //Declaration et initialisation des variables.
+    int result;
+
+    //Bloc d'instruction.
+    result = stringcomp((*A).nom, (*B).nom);
+    if(result == 0){
+		result = stringcomp((*A).prenom, (*B).prenom);
+    }
+    return result;
+}
+
+/**
+ *Methode comparant 2 structures clientB.
+ *
+ *@pre : Les 2 structures ont ete initialisee.
+ *@post : Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
+ *l’ordre lexicographique.
+ */
+int structcompB(struct clientB* A,struct clientB* B){
+
+    //Declaration et initialisation des variables.
+    int result;
+
+    //Bloc d'instruction.
+    result = stringcomp((*A).nom, (*B).nom);
+    if(result == 0){//Si les deux noms sont identique, compare les prenoms.
+		result = stringcomp((*A).prenom, (*B).prenom);
+    }
+    return result;
+}
+
+/**
+ *Methode de tri de tableau de structure clientA.
+ *
+ *@pre: Le tableau contient au moin une structure initalisee.
+ *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
+ */
+void quicksortA(struct clientA* tab, int inf, int sup){
+
+    //Declaration et initialisation des variables.
+	int i,j;
+    clientA pivot,temp;
+	i = inf;
+	j = sup;
+
+    //Bloc d'instruction.
+	structclientAcopy((tab[(inf + sup)/2]), &pivot);//Choisi le pivot.
+	do{
+		//Parcours le tableau a la recherche d'element superieur ou inferieur au pivot.
+        while((structcompA(&(tab[i]),&pivot)) == 1){
+			i++;
+		}
+        while((structcompA(&pivot,&(tab[j]))) == 1){
+			j--;
+        }
+		if(i <= j){
+			//Effectue les permutations.
+			structclientAcopy(tab[i], &(temp));
+			structclientAcopy(tab[j], &(tab[i]));
+			structclientAcopy(temp, &(tab[j]));
+			i++;
+			j--;
+		}
+	}
+	while(i <= j);
+	if(j > inf){
+		quicksortA(tab, inf, j);//Appel recursif a la Fonction.
+	}
+	if(i < sup){
+		quicksortA(tab, i, sup);
+	}
+}
+
+/**
+ *Methode de tri de tableau de structure clientB.
+ *
+ *@pre: Le tableau contient au moin une structure initalisee.
+ *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
+ */
+void quicksortB(struct clientB* tab, int inf, int sup){
+
+    //Declaration et initialisation des variables.
+	int i,j;
+	clientB pivot,temp;
+	i = inf;
+	j = sup;
+
+    //Bloc d'instruction.
+	structclientBcopy((tab[(inf + sup)/2]), &pivot);//Choisi le pivot.
+	do{
+		//Parcours le tableau a la recherche d'element superieur ou inferieur au pivot.
+        while((structcompB(&(tab[i]),&pivot)) == 1){
+			i++;
+		}
+        while((structcompB(&pivot,&(tab[j]))) == 1){
+			j--;
+        }
+		if(i<=j){
+			//Effectue les permutations.
+			structclientBcopy(tab[i], &(temp));
+			structclientBcopy(tab[j], &(tab[i]));
+			structclientBcopy(temp, &(tab[j]));
+			i++;
+			j--;
+		}
+	}
+	while(i<=j);
+	if(j>inf){
+		quicksortB(tab,inf,j);//Appel recursif a la Fonction.
+	}
+	if(i<sup){
+		quicksortB(tab,i,sup);
+	}
+}
