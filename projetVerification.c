@@ -7,6 +7,9 @@
 #define sizeDateNaiss 11
 #define sizeNumCompte 20
 #define sizeNumRegNat 14
+#define sizeTempon 100
+#define sizeClientA 108
+#define sizeClientB 74
 
 //Prototype de fonction.
 void viderBuffer();
@@ -50,8 +53,8 @@ void saveCustomersA(struct clientA* tabClient, int size, int fileNumber);
 void saveCustomersB(struct clientB* tabClient, int size, int fileNumber);
 
 /**
- *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son numero de compte et son numero
- *de registre national.
+ *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son
+ *numero de compte et son numero de registre national.
  */
 typedef struct clientA clientA;
 struct clientA{
@@ -84,10 +87,13 @@ main(){
 	quicksortA(trinomA, 0, 1);
 	printTabStructA(trinomA, 2);
 	saveCustomersA(trinomA, 2, 0);
+	loadCustomersA(trinomA,0);
+	printTabStructA(trinomA, 2);
+
 }
 
 /**
- *Methode vidant le buffer.
+ *Fonction vidant le buffer.
  *
  *@pre:/
  *@post: Vide le buffer.
@@ -98,15 +104,16 @@ void viderBuffer(){
     char c = 0;
 
  	//Bloc d'instruction.
-    while (c != '\n' && c != EOF && c !='\0'){//Parcours le "tableau" de saisie non enregistre et place le "curseur" a sa fin.
+	//Parcours le "tableau" de saisie non enregistre et place le "curseur" a sa fin.
+    while (c != '\n' && c != EOF && c !='\0'){
         c = getchar();
     }
 }
 
 /**
- *Methode verifiant si la chaine de caracteres rentrees a la bonne taille.
+ *Fonction verifiant si la chaine de caracteres rentrees a la bonne taille.
  *
- *@pre:/
+ *@pre: tab n'est pas vide, size > 0.
  *@post: Renvoie 1 si la chaine a la bonne taille, 0 sinon.
  */
 int checkSize(char* tab, int size){
@@ -116,7 +123,8 @@ int checkSize(char* tab, int size){
 	error = 1;
 
 	 //Bloc d'instruction.
-	for(charCounter = 0; tab[charCounter] != '\0'; charCounter++);//Boucle comptant le nombre de caracteres de la chaine.
+	for(charCounter = 0; tab[charCounter] != '\0'; charCounter++);/*Boucle comptant le nombre de
+	caracteres de la chaine.*/
 	if(charCounter > size-1){
 		error = 0;
 		printf("Vous avez depass%c le nombre de cartact%cre autoris%c!\n",130,138,130);
@@ -125,7 +133,7 @@ int checkSize(char* tab, int size){
 }
 
 /**
- *Methode verifiant que la chaine de caracteres n'est pas vide.
+ *Fonction verifiant que la chaine de caracteres n'est pas vide.
  *
  *@pre:/
  *@post: Renvoie 1 si la chaine de caracteres n'est pas vide, 0 sinon.
@@ -144,17 +152,19 @@ int isEmpty(char* tab){
 }
 
 /**
- *Methode verifiant si le nom entre est un nom valide.
+ *Fonction verifiant si le nom entre est un nom valide.
  *
  *@pre:/
- *@post: Retourne la valeur 0 si la chaine de caracteres ne correspond pas à un nom de client valide et retourne la valeur 1 dans le cas contraire.
- *       Un nom est valide si il est compose des caracteres suivant: l’espace blanc (code ascii 32) et les 26 lettres majuscules non accentuees de
- *       l’alphabet (code ascii compris entre 65 et 90). Un nom de client ne peut pas commencer par un espace blanc.
+ *@post: Retourne la valeur 0 si la chaine de caracteres ne correspond pas à un nom de client
+ *		 valide et retourne la valeur 1 dans le cas contraire. Un nom est valide si il est
+ *		 compose des caracteres suivant: l’espace blanc (code ascii 32) et les 26 lettres
+ *		 majuscules non accentuees de l’alphabet (code ascii compris entre 65 et 90). Un nom
+ *		 de client ne peut pas commencer par un espace blanc.
  */
 int verifnom(char* chaine){
 
     //Declaration et initialisation des variables.
-	int error = 1; //Variable prenant la valeur 1 ou 0 respectivement si le nom est valide ou non.
+	int error = 1;//Variable prenant la valeur 1 ou 0 respectivement si le nom est valide ou non.
 	int i;
 
 	//Bloc d'instruction.
@@ -175,13 +185,15 @@ int verifnom(char* chaine){
 }
 
 /**
- *Methode verifiant si le prenom entre est un prenom valide.
+ *Fonction verifiant si le prenom entre est un prenom valide.
  *
  *@pre:/
- *@post: Retourne la valeur 0 si la chaine de caracteres ne correspond pas à un prenom de client valide
- *       et retourne la valeur 1 dans le cas contraire. Un prenom est valide si il est compose des caracteres suivant: l'espace blanc (code ascii 32),
- *       le tiret (code ascii 45) et les 26 lettres majuscules non accentuees de l’alphabet (code ascii compris entre 65 et 90). Un prenom de client
- *       ne peut pas commencer par un espace blanc ni par un tiret.
+ *@post: Retourne la valeur 0 si la chaine de caracteres ne correspond pas à un prenom de client
+ *		 valide et retourne la valeur 1 dans le cas contraire. Un prenom est valide si il est
+ *		 compose des caracteres suivant: l'espace blanc (code ascii 32), le tiret (code ascii
+ *		 45) et les 26 lettres majuscules non accentuees de l’alphabet (code ascii compris
+ *		 entre 65 et 90). Un prenom de client ne peut pas commencer par un espace blanc ni
+ *		 par un tiret.
  */
 int verifprenom(char* chaine){
 
@@ -384,7 +396,7 @@ int compatibildatenaissregnat(char* dateofbirth, char* numregnat){
 void enterName(char* tab){
 
     //Declaration et initialisation des variables.
-	char tempon[100];
+	char tempon[sizeTempon];
 	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un nom valide.
 
 	//Bloc d'instruction.
@@ -411,7 +423,7 @@ void enterName(char* tab){
 void enterFirstName(char* tab){
 
     //Declaration et initialisation des variables.
-	char tempon[100];
+	char tempon[sizeTempon];
 	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un prenom valide.
 
 	//Bloc d'instruction.
@@ -437,7 +449,7 @@ void enterFirstName(char* tab){
 void enterDateOfBirth(char* tab){
 
     //Declaration et initialisation des variables.
-	char tempon[100];
+	char tempon[sizeTempon];
 	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre une date valide.
 
 	//Bloc d'instruction.
@@ -463,7 +475,7 @@ void enterDateOfBirth(char* tab){
 void enterAccountNumber(char* tab){
 
     //Declaration et initialisation des variables.
-	char tempon[100];
+	char tempon[sizeTempon];
 	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
 
 	//Bloc d'instruction.
@@ -489,7 +501,7 @@ void enterAccountNumber(char* tab){
 void enterNationalRegistryNumber(char* tab){
 
     //Declaration et initialisation des variables.
-	char tempon[100];
+	char tempon[sizeTempon];
 	int boolean = 0;//Variable passant a 0 (faux) lorsque l'utilisateur entre un numero valide.
 
 	//Bloc d'instruction.
@@ -551,7 +563,7 @@ int enterNumber(int size){
 	//Declaration et initialisation des variables.
 	int number;
 	int boolean = 1;
-	char tab [20];
+	char tab [sizeTempon];
 
 	//Bloc d'instruction.
 	do{
@@ -1001,7 +1013,7 @@ int concat(char* source, char* destination, int indice){
 		 destination[indice] = source[i];
 		 indice++;
 	 }
-	 destination[indice] = ' ';//Ajoute u n espace a la fin de la chaine.
+	 destination[indice] = '*';//Ajoute un asterisque a la fin de la chaine.
 	 indice++;//Incremente indice pour pouvoir continue a remplir destination ulterieurement.
 	 return(indice);
  }
@@ -1055,8 +1067,7 @@ void saveCustomersA(struct clientA* tabClient, int size, int fileNumber){
 	//Declaration et initialisation des variables.
 	FILE* file = NULL;
 	int i;
-	//Chaine de caractere contenant toutes les informations d'un client, 108 etant le nombre maximal de caractere contenu dans un client plus la marque de fin de chaine.
-	char tab[108];
+	char tab[sizeClientA];
 
 	//Bloc d'instruction.
 	if(fileNumber){
@@ -1085,8 +1096,7 @@ void saveCustomersB(struct clientB* tabClient, int size, int fileNumber){
 	//Declaration et initialisation des variables.
 	FILE* file = NULL;
 	int i;
-	//Chaine de caractere contenant toutes les informations d'un client, 108 etant le nombre maximal de caractere contenu dans un client plus la marque de fin de chaine.
-	char tab[108];
+	char tab[sizeClientB];
 
 	//Bloc d'instruction.
 	if(fileNumber){
@@ -1102,4 +1112,137 @@ void saveCustomersB(struct clientB* tabClient, int size, int fileNumber){
 		}
 		fclose(file);//Ferme le fichier.
 	}
+}
+
+/**
+ *Fonction copiant une sous chaine de caractere.
+ *
+ *@pre: indice >= 0.
+ *@post: Place la chaine de caractere comprise entre indice et * dans destination et retourne l'indice de la prochaine case de source a copier..
+ */
+int split(char* source, char* destination, int indice){
+
+	//Declaration et initialisation des variables.
+	int i;
+
+	//Bloc d'instruction.
+	for(i = 0; source[indice] != '*'; i++){
+		destination[i] = source[indice];
+		indice ++;
+	}
+	destination[i] = '\0';
+	indice++;//Incremente indice pour arriver a la prochaine case de source a copier dans un eventuel rappel a la fonction.
+	return(indice);
+}
+
+/**
+ *Fonction copiant les info d'un string dans un client.
+ *
+ *@pre: tab n'est pas vide.
+ *@post: retourne un clientA dans le quel a ete place les informations contenues dans tab.
+ */
+struct clientA stringToStructA(char* tab){
+
+	//Declaration et initialisation des variables.
+	int indice = 0;
+	clientA client;
+	char tempon[sizeNom];
+
+	//Bloc d'instruction.
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.nom);//Copie tempon dans client.nom
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.prenom);
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.datenaiss);
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.num_reg_nat);
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.num_compte);
+
+	return(client);
+}
+
+/**
+ *Fonction copiant les info d'un string dans un client.
+ *
+ *@pre: tab n'est pas vide.
+ *@post: retourne un clientB dans le quel a ete place les informations contenues dans tab.
+ */
+struct clientB stringToStructB(char* tab){
+
+	//Declaration et initialisation des variables.
+	int indice = 0;
+	clientB client;
+	char tempon[sizeNom];
+
+	//Bloc d'instruction.
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.nom);//Copie tempon dans client.nom
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.prenom);
+	indice = split(tab, tempon, indice);
+	stringcopy(tempon, client.datenaiss);
+	
+	return(client);
+}
+
+/**
+ *Fonction lisant un fichier.
+ *
+ *@pre: fileNumber == 0 || filleNumber == 1.
+ *@post: Lit un fichier et stocke son contenu dans tabClient.
+ */
+int loadCustomersA(struct clientA* tabClient, int fileNumber){
+
+	//Declaration et initialisation des variables.
+	FILE* file = NULL;
+	int size = 0;
+	char tab[sizeClientA];
+
+	//Bloc d'instruction.
+	if(fileNumber){
+		file = fopen("sourceA.txt","r");//Overture du fichier
+	}
+	else{
+		file = fopen("trinomA.txt","r");//Overture du fichier
+	}
+	if(file != NULL){//Si le fichier existe.
+			while(fgets(tab, sizeClientA, file) != NULL){//Lit une ligne du fichier.
+				structclientAcopy((stringToStructA(tab)), &(tabClient[size]));//Transforme la chaine en client.
+				size++;
+			}
+		fclose(file);//Ferme le fichier.
+	}
+	return(size);
+}
+
+/**
+ *Fonction lisant un fichier.
+ *
+ *@pre: fileNumber == 0 || filleNumber == 1.
+ *@post: Lit un fichier et stocke son contenu dans tabClient.
+ */
+int loadCustomersB(struct clientB* tabClient, int fileNumber){
+
+	//Declaration et initialisation des variables.
+	FILE* file = NULL;
+	int size = 0;
+	char tab[sizeClientB];
+
+	//Bloc d'instruction.
+	if(fileNumber){
+		file = fopen("sourceB.txt","r");//Overture du fichier
+	}
+	else{
+		file = fopen("trinomB.txt","r");//Overture du fichier
+	}
+	if(file != NULL){//Si le fichier existe.
+			while(fgets(tab, sizeClientB, file) != NULL){//Lit une ligne du fichier.
+				structclientBcopy((stringToStructB(tab)), &(tabClient[size]));//Transforme la chaine en client.
+				size++;
+			}
+		fclose(file);//Ferme le fichier.
+	}
+	return(size);
 }
