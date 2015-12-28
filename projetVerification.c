@@ -49,9 +49,6 @@ int structcompA(struct clientA* A,struct clientA* B);
 int structcompB(struct clientB* A,struct clientB* B);
 void quicksortA(struct clientA* tab, int inf, int sup);
 void quicksortB(struct clientB* tab, int inf, int sup);
-int concat(char* source, char* destination, int indice);
-void structAToString(struct clientA client, char* tab);
-void structBToString(struct clientB client, char* tab);
 void saveCustomersA(struct clientA* tabClient, int size, int fileNumber);
 void saveCustomersB(struct clientB* tabClient, int size, int fileNumber);
 int split(char* source, char* destination, int indice);
@@ -62,7 +59,7 @@ int loadCustomersB(struct clientB* tabClient, int fileNumber);
 int structComp(struct clientA clientA, struct clientB clientB);
 void suprClientA(struct clientA* clientA, int indice, int size);
 void suprClientB(struct clientB* clientB, int indice, int size);
-void gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struct clientB* clientB);
+int gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struct clientB* clientB);
 
 /**
  *Creation d'une structure client, contenant le nom du client, son prenom, sa date de naissance, son
@@ -96,8 +93,7 @@ main(){
 	struct clientA trinomA[sizeBanque];
 	struct clientB sourceB[sizeBanque];
 	struct clientB trinomB[sizeBanque];
-	int sizeA;
-	int sizeB;
+	int sizeA, sizeB, choixGestion, choix, estModifie;
 
  	//Bloc d'instruction.
 	system("cls");
@@ -106,17 +102,86 @@ main(){
 	sizeB = loadCustomersB(sourceB,1);
 	loadCustomersB(trinomB,0);
 
-	printf("lol");
-
-
-	/*fillTabStructA(sourceA, 0, 1);
-	structTabACopy(sourceA, trinomA,2);
-	quicksortA(trinomA, 0, 1);
-	printTabStructA(trinomA, 2);*/
-	saveCustomersA(trinomA, 2, 0);
-	loadCustomersA(trinomA,0);
-	printTabStructA(trinomA, 2);
-
+	printf("Bienvenu dans ce programme de gestion de banque!\n");
+	do{
+		printf("Que voulez vous faire, ajouter des clients(tapez 1), afficher les clients(tapez 2), gerer les clients qui ont un compte dans les deux banques(taper 3) ou fermer le programme(taper 4)?\n");
+		choixGestion = enterNumber(4);
+        system("cls");
+		if(choixGestion == 1){
+			//A venir.
+		}
+		else if(choixGestion == 2){
+			if(sizeA != 0 || sizeB != 0){
+				printf("Voulez vous afficher les clients de la banque A(tapez 1) ou ceux de la banque B(tapez 2)?\n");
+				choix = enterNumber(2);
+				if(choix == 1){
+					if(sizeA != 0){
+						printf("Voulez vous afficher la liste de clients tri%ce(tapez 1) ou celle non tri%ce(tapez 2)?\n",130,130);
+						choix = enterNumber(2);
+						if(choix == 1){
+							printTabStructA(trinomA, sizeA);
+						}
+						else{
+							printTabStructA(sourceA, sizeA);
+						}
+					}
+					else{
+						printf("Il n'y a aucun client dans la banque A!\n");
+					}
+				}
+				else{
+					if(sizeB != 0){
+						printf("Voulez vous afficher la liste de clients tri%ce(tapez 1) ou celle non tri%ce(tapez 2)?\n",130,130);
+						choix = enterNumber(2);
+						if(choix == 1){
+							printTabStructB(trinomB, sizeB);
+						}
+						else{
+							printTabStructB(sourceB, sizeB);
+						}
+					}
+					else{
+						printf("Il n'y a aucun client dans la banque B!\n");
+					}
+				}
+			}
+			else{
+				printf("Il n'y a aucun client dans la banque A ni dans la banque B, rien ne peut donc %ctre affich%c!\n",136,130);
+			}
+		}
+		else if(choixGestion == 3){
+			if(sizeB !=0 && sizeA != 0){
+				estModifie = gestionBanqueABanqueB(&sizeA, &sizeB, trinomA, trinomB);
+				if(estModifie == 1){
+					structTabACopy(trinomA, sourceA, sizeA);//Copie les tableaux modifies dans source pour conserver les meme clients.
+				}
+				else if(estModifie == 2){
+					structTabBCopy(trinomB, sourceB, sizeB);
+				}
+				else if(estModifie){
+					structTabACopy(trinomA, sourceA, sizeA);
+					structTabBCopy(trinomB, sourceB, sizeB);
+				}
+			}
+			else{
+				if(sizeA == 0 && sizeB == 0){
+					printf("Il n'y a aucun client dans la banque A et dans la banque B, il est donc impossible de trouver des clients qui ont un compte dans les deux banques!\n");
+				}
+				else if(sizeA == 0){
+					printf("Il n'y a aucun client dans la banque A, il est donc impossible de trouver des clients qui ont un compte dans les deux banques!\n");
+				}
+				else{
+					printf("Il n'y a aucun client dans la banque B, il est donc impossible de trouver des clients qui ont un compte dans les deux banques!\n");
+				}
+			}
+		}
+	}
+	while(choixGestion != 4);
+	saveCustomersA(sourceA, sizeA, 1);
+	saveCustomersA(trinomA, sizeA, 0);
+	saveCustomersB(sourceB, sizeB, 1);
+	saveCustomersB(trinomB, sizeB, 0);
+	printf("Aurevoir et %c la prochaine!\n",133);
 }
 
 /**
@@ -1299,13 +1364,14 @@ void suprClientB(struct clientB* clientB, int indice, int size){
  *@pre: sizeA > 0, sizeB > 0, il y a des clients initialises dans clientA et clientB.
  *@post: Verifie si il y a des clients qui ont un compte dans les deux banques et demande a l'utilisateur si il veut clore un compte ou ne rien faire.
  */
-void gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struct clientB* clientB){
+int gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struct clientB* clientB){
 
 	//Declaration et initialisation des variables.
-	int choix, tempon, compteur, i, j;
+	int choix, tempon, compteur, i, j, estModifie;
 	i = 0;
 	j = 0;
 	compteur = 0;
+	estModifie = 0;
 
 	//Bloc d'instruction.
 	system("cls");
@@ -1328,17 +1394,20 @@ void gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, stru
 				suprClientA(clientA, i, *sizeA);
 				*sizeA--;
 				j++;
+				estModifie = 1;
 			}
 			else if(choix == 2){
 				suprClientB(clientB, j, *sizeB);
 				*sizeB--;
 				i++;
+				estModifie = 2;
 			}
 			else if(choix == 3){
 				suprClientA(clientA, i, *sizeA);
 				suprClientB(clientB, j, *sizeB);
 				*sizeA--;
 				*sizeB--;
+				estModifie = 3;
 			}
 			else{
 				i++;
@@ -1352,4 +1421,5 @@ void gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, stru
 	else{
 		printf("Aucun client present dans les deux banques n'a %ct%c trouv%c!\n",130, 130, 130);
 	}
+	return(estModifie);
 }
