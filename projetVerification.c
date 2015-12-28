@@ -93,22 +93,39 @@ main(){
 	struct clientA trinomA[sizeBanque];
 	struct clientB sourceB[sizeBanque];
 	struct clientB trinomB[sizeBanque];
-	int sizeA, sizeB, choixGestion, choix, estModifie;
+	int sizeA, sizeB, choixGestion, choix, estModifie, clientAAjouter;
 
  	//Bloc d'instruction.
-	system("cls");
 	sizeA = loadCustomersA(sourceA,1);
 	loadCustomersA(trinomA,0);
 	sizeB = loadCustomersB(sourceB,1);
 	loadCustomersB(trinomB,0);
-
 	printf("Bienvenu dans ce programme de gestion de banque!\n");
+	system("pause");
 	do{
+		system("cls");
 		printf("Que voulez vous faire, ajouter des clients(tapez 1), afficher les clients(tapez 2), gerer les clients qui ont un compte dans les deux banques(taper 3) ou fermer le programme(taper 4)?\n");
 		choixGestion = enterNumber(4);
-        system("cls");
 		if(choixGestion == 1){
-			//A venir.
+			printf("Voulez vous ajouter des clients %c la banque A(tapez 1) ou %c la banque B(tapez 2)?\n",133,133);
+			choix = enterNumber(2);
+			if(choix == 1){
+				printf("Combien de client voulez-vous ajouter %c la banque A?(Vous pouvez encore ajouter %d client(s)).\n",133,sizeBanque - sizeA);
+				clientAAjouter = enterNumber(sizeBanque - sizeA);
+				fillTabStructA(sourceA, sizeA, (sizeA + clientAAjouter) - 1);
+				sizeA = sizeA + clientAAjouter;
+				structTabACopy(sourceA, trinomA, sizeA);
+				quicksortA(trinomA, 0, sizeA - 1);
+			}
+			else{
+				printf("Combien de client voulez-vous ajouter %c la banque B?(Vous pouvez encore ajouter %d client(s)).\n",133,sizeBanque - sizeB);
+				clientAAjouter = enterNumber(sizeBanque - sizeB);
+				fillTabStructB(sourceB,sizeB, (sizeB + clientAAjouter) - 1);
+				sizeB = sizeB + clientAAjouter;
+				structTabBCopy(sourceB, trinomB, sizeB);
+				quicksortB(trinomB, 0, sizeB - 1);
+			}
+			system("pause");
 		}
 		else if(choixGestion == 2){
 			if(sizeA != 0 || sizeB != 0){
@@ -148,6 +165,7 @@ main(){
 			else{
 				printf("Il n'y a aucun client dans la banque A ni dans la banque B, rien ne peut donc %ctre affich%c!\n",136,130);
 			}
+			system("pause");
 		}
 		else if(choixGestion == 3){
 			if(sizeB !=0 && sizeA != 0){
@@ -174,6 +192,7 @@ main(){
 					printf("Il n'y a aucun client dans la banque B, il est donc impossible de trouver des clients qui ont un compte dans les deux banques!\n");
 				}
 			}
+			system("pause");
 		}
 	}
 	while(choixGestion != 4);
