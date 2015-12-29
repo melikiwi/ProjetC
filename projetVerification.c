@@ -474,9 +474,11 @@ int verifnumregnat(char* chaine){
  *Fonction verifiant la compatibilite entre la date de naissance et le numero de registre national.
  *
  *@pre: dateofbirth a ete initialise, numregnat a ete initialise.
- *@post: Retourne la valeur 1 si la date de naissance est compatible avec le numéro de registre national (Les deux premiers chiffres du numero de
- *       registre national correspondent a l’annee de naissance; les deux suivants au mois de la naissance tandis que le 5eme et 6eme chiffre
- *       correspondent au jour de la naissance) et retourne la valeur 0 dans le cas contraire.
+ *@post: Retourne la valeur 1 si la date de naissance est compatible avec le numéro de registre 
+ *		 national (Les deux premiers chiffres du numero de registre national correspondent a 
+ *		 l’annee de naissance; les deux suivants au mois de la naissance tandis que le 5eme et 
+ *		 6eme chiffre correspondent au jour de la naissance) et retourne la valeur 0 dans le cas 
+ *		 contraire.
  */
 int compatibildatenaissregnat(char* dateofbirth, char* numregnat){
 
@@ -521,7 +523,8 @@ void enterName(char* tab){
 		printf("Veuillez entrer le nom du client en majuscule!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNom) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		if(checkSize(tempon,sizeNom) && isEmpty(tempon)){
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
             boolean = verifnom(tab);
 		}
@@ -547,7 +550,8 @@ void enterFirstName(char* tab){
 		printf("Veuillez entrer le prenom du client en majuscule!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizePrenom) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		if(checkSize(tempon,sizePrenom) && isEmpty(tempon)){
             stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
             boolean = verifprenom(tab);
 		}
@@ -573,7 +577,8 @@ void enterDateOfBirth(char* tab){
 		printf("Veuillez entrer la date de naissance du client sous le format jj/mm/aaaa!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeDateNaiss) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		if(checkSize(tempon,sizeDateNaiss) && isEmpty(tempon)){
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
             boolean = verifdatenaiss(tab);
 		}
@@ -599,7 +604,8 @@ void enterAccountNumber(char* tab){
 		printf("Veuillez entrer le numero de compte du client sous le format BExx xxxx xxxx xxxx!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNumCompte) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		if(checkSize(tempon,sizeNumCompte) && isEmpty(tempon)){
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
             boolean = verifnumcompte(tab);
 		}
@@ -625,7 +631,8 @@ void enterNationalRegistryNumber(char* tab){
 		printf("Veuillez entrer le numero de registre national du client sous le format xxxxxx-xxx-xx!\n");
 		gets(tempon);
 		viderBuffer();
-		if(checkSize(tempon,sizeNumRegNat) && isEmpty(tempon)){//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		//Verifie que la chaine n'est pas vide et qu'elle ne depasse pas sa longueur max.
+		if(checkSize(tempon,sizeNumRegNat) && isEmpty(tempon)){
 			stringcopy (tempon, tab);//Copie le contenu de tempon dans tab.
             boolean = verifnumregnat(tab);
 		}
@@ -634,15 +641,19 @@ void enterNationalRegistryNumber(char* tab){
  }
 
 /**
- *Fonction permetant a l'utilisateur d'entrer un numero de registre national correspondant a la date de naissance.
+ *Fonction permetant a l'utilisateur d'entrer un numero de registre national correspondant a 
+ *la date de naissance.
  *
  *@pre:/
- *@post: Place dans date la date de naissance et dans re le numero de registre national apres les avoir verifier et verifier qu'ils correspondent.
+ *@post: Place dans date la date de naissance et dans re le numero de registre national apres 
+ *		 les avoir verifier et verifier qu'ils correspondent.
  */
 void enterDateAndRegNum(char* date,char* reg){
 
 	//Declaration et initialisation des variables.
-	int boolean = 3;//Variable prenant la valeur 0 si la date et le reg coincide,1 si l'user veut rentrer la date, 2 s'il veut rentrer le reg et 3 s'il veut rentrer les 2.
+	/*Variable prenant la valeur 0 si la date et le reg coincide,1 si l'user veut rentrer la 
+	  date, 2 s'il veut rentrer le reg et 3 s'il veut rentrer les 2.*/
+	int boolean = 3;
 
 	//Bloc d'instruction.
 	do{
@@ -652,7 +663,8 @@ void enterDateAndRegNum(char* date,char* reg){
 		if(boolean == 2 || boolean == 3){
 			enterNationalRegistryNumber(reg);
 		}
-		if(!(compatibildatenaissregnat(date, reg))){//Verifie que le numero de registre coincide avec la date de naissance.
+		//Verifie que le numero de registre coincide avec la date de naissance.
+		if(!(compatibildatenaissregnat(date, reg))){
 			printf("Vous avez rentr%c comme date de naissance: ",130);
 			puts(date);
 			printf("et comme numero de registre national: ");
@@ -670,7 +682,7 @@ void enterDateAndRegNum(char* date,char* reg){
 /**
  *Fonction demandant a l'utilisateur de rentrer un nombre.
  *
- *@pre: size doit doit etre initialise et size > 0.
+ *@pre: size > 0.
  *@post: Renvoie le nombre entre par l'utilisateur si il est plus petit ou egal a size.
  */
 int enterNumber(int size){
@@ -701,7 +713,7 @@ int enterNumber(int size){
 /**
  *Fonction convertissant une chaine de caracteres en nombre entier.
  *
- *@pre: tab dois etre initialise.
+ *@pre:/
  *@post: Renvoie le nombre contenu dans la cahine de caractere tab.
  */
 int stringToNumber(char* tab){
@@ -714,7 +726,9 @@ int stringToNumber(char* tab){
 	//Bloc d'instruction.
 	for(counter = 0; tab[counter] != '\0';counter++);//Compte le nombre de caractere dans tab.
 	while(counter > 0){
-		number = number + ((tab[counter - 1] - 48) * multiplier);//Place dans number, number + la valeur cotenue dans tab[counter -1] multiplie par la puissance de 10 correspondante.
+		/*Place dans number, number + la valeur cotenue dans tab[counter -1] multiplie par la 
+		  puissance de 10 correspondante.*/
+		number = number + ((tab[counter - 1] - 48) * multiplier);
 		multiplier = multiplier * 10;
 		counter --;
 	}
@@ -747,7 +761,8 @@ int checkNumber(char* tab){
  *Fonction permettant a l'utilisateur d'encoder un client type A.
  *
  *@pre:/
- *@post: Remplit un "clientB" avec les donnees rentrees par l'utilisateur apres avoir verifier leur validite.
+ *@post: Remplit un "clientA" avec les donnees rentrees par l'utilisateur apres avoir verifie
+ *		 leur validite.
  */
 struct clientA encodenouvclientA(void){
 
@@ -764,7 +779,8 @@ struct clientA encodenouvclientA(void){
  *Fonction permettant a l'utilisateur d'encoder un client type B.
  *
  *@pre:/
- *@post: Remplit un "clientB" avec les donnees rentrees par l'utilisateur apres avoir verifier leur validite.
+ *@post: Remplit un "clientB" avec les donnees rentrees par l'utilisateur apres avoir verifie
+ *		 leur validite.
  */
 struct clientB encodenouvclientB(void){
 
@@ -779,8 +795,8 @@ struct clientB encodenouvclientB(void){
  *Fonction qui copie le contenu d'un tableau dans un autre.
  *
  *@pre:/
- *@post: Copie les caractères se trouvant dans la chaîne de caractères source (y compris la marque de fin de chaîne) et de les placer
- *       dans la chaîne de caractères destination.
+ *@post: Copie les caractères se trouvant dans la chaîne de caractères source (y compris la 
+ *		 marque de fin de chaîne) et de les placer dans la chaîne de caractères destination.
  */
 void stringcopy (char* source, char* destination){
 
@@ -798,7 +814,7 @@ void stringcopy (char* source, char* destination){
  *Fonction remplissant un tableau de structure clientA avec les entres utilisateurs.
  *
  *@pre: top >= 0; end > 0 && end > top.
- *@post: Remplit tab de clientA de top, l'indice de départ jusqu'a end l'indice de fin.
+ *@post: Remplit tab de clientA de top, l'indice de départ jusqu'a end, l'indice de fin.
  */
 void fillTabStructA(struct clientA* tab, int top, int end){
 
@@ -815,7 +831,7 @@ void fillTabStructA(struct clientA* tab, int top, int end){
  *Fonction remplissant un tableau de structure clientB avec les entres utilisateurs.
  *
  *@pre: top >= 0; end > 0 && end > top.
- *@post: Remplit tab de clientB de top, l'indice de départ jusqu'a end l'indice de fin.
+ *@post: Remplit tab de clientB de top, l'indice de départ jusqu'a end, l'indice de fin.
  */
 void fillTabStructB(struct clientB* tab, int top, int end){
 
@@ -832,8 +848,8 @@ void fillTabStructB(struct clientB* tab, int top, int end){
  *Fonction qui copie le contenu d'une structure dans une autre.
  *
  *@pre:/
- *@post: Copie les informations se trouvant dans la structure clientA source et de les placer dans la structure clientA dont destination contient
- *       l’adresse.
+ *@post: Copie les informations se trouvant dans la structure clientA source et de les 
+ *		 placer dans la structure clientA dont destination contient l’adresse.
  */
 void structclientAcopy (struct clientA source, struct clientA* destination){
 
@@ -849,8 +865,8 @@ void structclientAcopy (struct clientA source, struct clientA* destination){
  *Fonction qui copie le contenu d'une structure dans une autre.
  *
  *@pre:/
- *@post: Copie les informations se trouvant dans la structure clientB source et de les placer dans la structure clientB dont destination contient
- *		 l’adresse.
+ *@post: Copie les informations se trouvant dans la structure clientB source et de les 
+ *		 placer dans la structure clientB dont destination contient l’adresse.
  */
 void structclientBcopy (struct clientB source, struct clientB* destination){
 
@@ -900,7 +916,7 @@ void printClientB(struct clientB clientB){
  *Fonction affichant les clients de la banque A.
  *
  *@pre: Il doit il y avoir au moins un client dans tab.
- *@post: Affiche tous les clientA contenu dans tab.
+ *@post: Affiche tous les clientA contenus dans tab.
  */
 void printTabStructA(struct clientA* tab, int size){
 
@@ -976,8 +992,9 @@ void structTabBCopy(struct clientB* source, struct clientB* destination, int siz
  *Fonction qui verifie l'ordre lexicographique.
  *
  *@pre/
- *@post: Renvoie la valeur 0 si les chaînes A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
- *       l’ordre lexicographique.
+ *@post: Renvoie la valeur 0 si les chaînes A et B sont identiques ; 1 si A précède B 
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *		 lexicographique.
  */
 int stringcomp(char* A, char* B){
 
@@ -994,9 +1011,9 @@ int stringcomp(char* A, char* B){
 			place = -1;
 		}
     }
-    /*Si les deux chaines sont identiques du premier caractere jusqu'au dernier caractere de la chaine la plus petite verifie si il ne reste pas
-     *d'autre caractère et continue la comparaison.
-     */
+    /*Si les deux chaines sont identiques du premier caractere jusqu'au dernier caractere
+	  de la chaine la plus petite verifie si il ne reste pas d'autre caractère et continue
+	  la comparaison.*/
     if(place == 0){
 		if(A[i] == '\0' && B[i] != '\0'){
 			place = 1;
@@ -1011,9 +1028,10 @@ int stringcomp(char* A, char* B){
 /**
  *Fonction comparant 2 structures clientA.
  *
- *@pre : Les 2 structures ont ete initialisee.
- *@post : Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
- *l’ordre lexicographique.
+ *@pre: Les 2 structures ont ete initialisee.
+ *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B 
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *		 lexicographique.
  */
 int structcompA(struct clientA* A,struct clientA* B){
 
@@ -1022,8 +1040,11 @@ int structcompA(struct clientA* A,struct clientA* B){
 
     //Bloc d'instruction.
     result = stringcomp((*A).nom, (*B).nom);
-    if(result == 0){
+    if(result == 0){//Si les deux noms sont identiques, compare les prenoms.
 		result = stringcomp((*A).prenom, (*B).prenom);
+		if(result == 0){//Si les prenoms sont identiques, compare les dates de naissances.
+			result = stringcomp((*A).datenaiss, (*B).datenaiss);
+		}
     }
     return result;
 }
@@ -1031,9 +1052,10 @@ int structcompA(struct clientA* A,struct clientA* B){
 /**
  *Fonction comparant 2 structures clientB.
  *
- *@pre : Les 2 structures ont ete initialisee.
- *@post : Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B dans l’ordre lexicographique et enfin, –1 si A succède B dans
- *l’ordre lexicographique.
+ *@pre: Les 2 structures ont ete initialisee.
+ *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B 
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *		 lexicographique.
  */
 int structcompB(struct clientB* A,struct clientB* B){
 
@@ -1042,8 +1064,11 @@ int structcompB(struct clientB* A,struct clientB* B){
 
     //Bloc d'instruction.
     result = stringcomp((*A).nom, (*B).nom);
-    if(result == 0){//Si les deux noms sont identique, compare les prenoms.
+    if(result == 0){//Si les deux noms sont identiques, compare les prenoms.
 		result = stringcomp((*A).prenom, (*B).prenom);
+		if(result == 0){
+			result = stringcomp((*A).datenaiss, (*B).datenaiss);
+		}
     }
     return result;
 }
@@ -1052,7 +1077,8 @@ int structcompB(struct clientB* A,struct clientB* B){
  *Fonction de tri de tableau de structure clientA.
  *
  *@pre: Le tableau contient au moin une structure initalisee.
- *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
+ *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique 
+ *		 des noms puis des prenoms si 2 noms sont identique.
  */
 void quicksortA(struct clientA* tab, int inf, int sup){
 
@@ -1094,7 +1120,8 @@ void quicksortA(struct clientA* tab, int inf, int sup){
  *Fonction de tri de tableau de structure clientB.
  *
  *@pre: Le tableau contient au moin une structure initalisee.
- *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique des noms puis des prenoms si 2 noms sont identique.
+ *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique
+ *		 des noms puis des prenoms si 2 noms sont identique.
  */
 void quicksortB(struct clientB* tab, int inf, int sup){
 
@@ -1136,7 +1163,8 @@ void quicksortB(struct clientB* tab, int inf, int sup){
  *Fonction remplissant un fichier de clientA.
  *
  *@pre: Au moins un client doit avoir ete initialise dans tabClient, size > 0.
- *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas, il est cree.
+ *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas,
+ *		 il est cree.
  */
 void saveCustomersA(struct clientA* tabClient, int size, int fileNumber){
 
@@ -1164,7 +1192,8 @@ void saveCustomersA(struct clientA* tabClient, int size, int fileNumber){
  *Fonction remplissant un fichier de clientB.
  *
  *@pre: Au moins un client doit avoir ete initialise dans tabClient, size > 0.
- *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas, il est cree.
+ *@post: Ecrit dans un fichier le contenu de tabClient. Si le fichier n'existe pas,
+ *		 il est cree.
  */
 void saveCustomersB(struct clientB* tabClient, int size, int fileNumber){
 
@@ -1192,7 +1221,8 @@ void saveCustomersB(struct clientB* tabClient, int size, int fileNumber){
  *Fonction copiant une sous chaine de caractere.
  *
  *@pre: indice >= 0.
- *@post: Place la chaine de caractere comprise entre indice et * dans destination et retourne l'indice de la prochaine case de source a copier..
+ *@post: Place la chaine de caractere comprise entre indice et * dans destination
+ *		 et retourne l'indice de la prochaine case de source a copier.
  */
 int split(char* source, char* destination, int indice){
 
@@ -1205,7 +1235,9 @@ int split(char* source, char* destination, int indice){
 		indice ++;
 	}
 	destination[i] = '\0';
-	indice++;//Incremente indice pour arriver a la prochaine case de source a copier dans un eventuel rappel a la fonction.
+	/*Incremente indice pour arriver a la prochaine case de source a copier dans
+	  un eventuel rappel a la fonction.*/
+	indice++;
 	return(indice);
 }
 
@@ -1213,7 +1245,8 @@ int split(char* source, char* destination, int indice){
  *Fonction copiant les info d'un string dans un client.
  *
  *@pre: tab n'est pas vide.
- *@post: retourne un clientA dans le quel a ete place les informations contenues dans tab.
+ *@post: retourne un clientA dans le quel a ete place les informations contenues dans
+ *		 tab.
  */
 struct clientA stringToStructA(char* tab){
 
@@ -1241,7 +1274,8 @@ struct clientA stringToStructA(char* tab){
  *Fonction copiant les info d'un string dans un client.
  *
  *@pre: tab n'est pas vide.
- *@post: retourne un clientB dans le quel a ete place les informations contenues dans tab.
+ *@post: Retourne un clientB dans le quel a ete place les informations contenues dans
+ *		 tab.
  */
 struct clientB stringToStructB(char* tab){
 
@@ -1283,7 +1317,8 @@ int loadCustomersA(struct clientA* tabClient, int fileNumber){
 	}
 	if(file != NULL){//Si le fichier existe.
 			while(fgets(tab, sizeClientA, file) != NULL){//Lit une ligne du fichier.
-				structclientAcopy((stringToStructA(tab)), &(tabClient[size]));//Transforme la chaine en client.
+				//Transforme la chaine en client.
+				structclientAcopy((stringToStructA(tab)), &(tabClient[size]));
 				size++;
 			}
 		fclose(file);//Ferme le fichier.
@@ -1313,7 +1348,8 @@ int loadCustomersB(struct clientB* tabClient, int fileNumber){
 	}
 	if(file != NULL){//Si le fichier existe.
 			while(fgets(tab, sizeClientB, file) != NULL){//Lit une ligne du fichier.
-				structclientBcopy((stringToStructB(tab)), &(tabClient[size]));//Transforme la chaine en client.
+				//Transforme la chaine en client.
+				structclientBcopy((stringToStructB(tab)), &(tabClient[size]));
 				size++;
 			}
 		fclose(file);//Ferme le fichier.
@@ -1325,7 +1361,8 @@ int loadCustomersB(struct clientB* tabClient, int fileNumber){
  *Fonction comparant une structure clientA et une clientB.
  *
  *@pre: clientA et ClientB sont 2 client valide.
- *@post: Renvoie 1 si clientA precede clientB, -1 dans le cas inverse et 0 si ils sont identique.
+ *@post: Renvoie 1 si clientA precede clientB, -1 dans le cas inverse et 0 si ils
+ *		 sont identique.
  */
 int structComp(struct clientA clientA, struct clientB clientB){
 
@@ -1337,7 +1374,7 @@ int structComp(struct clientA clientA, struct clientB clientB){
 	if(resultat == 0){//Si les noms sont identique, verifier prenom.
 		resultat = stringcomp(clientA.prenom, clientB.prenom);//Compare les prenoms.
 			if(resultat == 0){
-				resultat = stringcomp(clientA.datenaiss, clientB.datenaiss);//!!!!!!!!!!!!Ouarf catastrophe, a decider.
+				resultat = stringcomp(clientA.datenaiss, clientB.datenaiss);
 			}
 	}
 	return(resultat);
@@ -1378,10 +1415,12 @@ void suprClientB(struct clientB* clientB, int indice, int size){
 }
 
 /**
- *Fonction de gestion des comptes double.
+ *Fonction de gestion des comptes doubles.
  *
- *@pre: sizeA > 0, sizeB > 0, il y a des clients initialises dans clientA et clientB.
- *@post: Verifie si il y a des clients qui ont un compte dans les deux banques et demande a l'utilisateur si il veut clore un compte ou ne rien faire.
+ *@pre: sizeA > 0, sizeB > 0, il y a des clients initialises dans clientA et
+ *		clientB.
+ *@post: Verifie si il y a des clients qui ont un compte dans les deux banques
+ *		 et demande a l'utilisateur si il veut clore un compte ou ne rien faire.
  */
 int gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struct clientB* clientB){
 
