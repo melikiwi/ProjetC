@@ -125,6 +125,7 @@ main(){
 				structTabBCopy(sourceB, trinomB, sizeB);
 				quicksortB(trinomB, 0, sizeB - 1);
 			}
+			printf("Ajout de(s) client(s) termin%c\n",130);
 			system("pause");
 		}
 		else if(choixGestion == 2){
@@ -474,10 +475,10 @@ int verifnumregnat(char* chaine){
  *Fonction verifiant la compatibilite entre la date de naissance et le numero de registre national.
  *
  *@pre: dateofbirth a ete initialise, numregnat a ete initialise.
- *@post: Retourne la valeur 1 si la date de naissance est compatible avec le numéro de registre 
- *		 national (Les deux premiers chiffres du numero de registre national correspondent a 
- *		 l’annee de naissance; les deux suivants au mois de la naissance tandis que le 5eme et 
- *		 6eme chiffre correspondent au jour de la naissance) et retourne la valeur 0 dans le cas 
+ *@post: Retourne la valeur 1 si la date de naissance est compatible avec le numéro de registre
+ *		 national (Les deux premiers chiffres du numero de registre national correspondent a
+ *		 l’annee de naissance; les deux suivants au mois de la naissance tandis que le 5eme et
+ *		 6eme chiffre correspondent au jour de la naissance) et retourne la valeur 0 dans le cas
  *		 contraire.
  */
 int compatibildatenaissregnat(char* dateofbirth, char* numregnat){
@@ -641,17 +642,17 @@ void enterNationalRegistryNumber(char* tab){
  }
 
 /**
- *Fonction permetant a l'utilisateur d'entrer un numero de registre national correspondant a 
+ *Fonction permetant a l'utilisateur d'entrer un numero de registre national correspondant a
  *la date de naissance.
  *
  *@pre:/
- *@post: Place dans date la date de naissance et dans re le numero de registre national apres 
+ *@post: Place dans date la date de naissance et dans re le numero de registre national apres
  *		 les avoir verifier et verifier qu'ils correspondent.
  */
 void enterDateAndRegNum(char* date,char* reg){
 
 	//Declaration et initialisation des variables.
-	/*Variable prenant la valeur 0 si la date et le reg coincide,1 si l'user veut rentrer la 
+	/*Variable prenant la valeur 0 si la date et le reg coincide,1 si l'user veut rentrer la
 	  date, 2 s'il veut rentrer le reg et 3 s'il veut rentrer les 2.*/
 	int boolean = 3;
 
@@ -726,7 +727,7 @@ int stringToNumber(char* tab){
 	//Bloc d'instruction.
 	for(counter = 0; tab[counter] != '\0';counter++);//Compte le nombre de caractere dans tab.
 	while(counter > 0){
-		/*Place dans number, number + la valeur cotenue dans tab[counter -1] multiplie par la 
+		/*Place dans number, number + la valeur cotenue dans tab[counter -1] multiplie par la
 		  puissance de 10 correspondante.*/
 		number = number + ((tab[counter - 1] - 48) * multiplier);
 		multiplier = multiplier * 10;
@@ -795,7 +796,7 @@ struct clientB encodenouvclientB(void){
  *Fonction qui copie le contenu d'un tableau dans un autre.
  *
  *@pre:/
- *@post: Copie les caractères se trouvant dans la chaîne de caractères source (y compris la 
+ *@post: Copie les caractères se trouvant dans la chaîne de caractères source (y compris la
  *		 marque de fin de chaîne) et de les placer dans la chaîne de caractères destination.
  */
 void stringcopy (char* source, char* destination){
@@ -848,7 +849,7 @@ void fillTabStructB(struct clientB* tab, int top, int end){
  *Fonction qui copie le contenu d'une structure dans une autre.
  *
  *@pre:/
- *@post: Copie les informations se trouvant dans la structure clientA source et de les 
+ *@post: Copie les informations se trouvant dans la structure clientA source et de les
  *		 placer dans la structure clientA dont destination contient l’adresse.
  */
 void structclientAcopy (struct clientA source, struct clientA* destination){
@@ -865,7 +866,7 @@ void structclientAcopy (struct clientA source, struct clientA* destination){
  *Fonction qui copie le contenu d'une structure dans une autre.
  *
  *@pre:/
- *@post: Copie les informations se trouvant dans la structure clientB source et de les 
+ *@post: Copie les informations se trouvant dans la structure clientB source et de les
  *		 placer dans la structure clientB dont destination contient l’adresse.
  */
 void structclientBcopy (struct clientB source, struct clientB* destination){
@@ -992,8 +993,8 @@ void structTabBCopy(struct clientB* source, struct clientB* destination, int siz
  *Fonction qui verifie l'ordre lexicographique.
  *
  *@pre/
- *@post: Renvoie la valeur 0 si les chaînes A et B sont identiques ; 1 si A précède B 
- *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *@post: Renvoie la valeur 0 si les chaînes A et B sont identiques ; 1 si A précède B
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre
  *		 lexicographique.
  */
 int stringcomp(char* A, char* B){
@@ -1029,8 +1030,8 @@ int stringcomp(char* A, char* B){
  *Fonction comparant 2 structures clientA.
  *
  *@pre: Les 2 structures ont ete initialisee.
- *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B 
- *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre
  *		 lexicographique.
  */
 int structcompA(struct clientA* A,struct clientA* B){
@@ -1053,8 +1054,8 @@ int structcompA(struct clientA* A,struct clientA* B){
  *Fonction comparant 2 structures clientB.
  *
  *@pre: Les 2 structures ont ete initialisee.
- *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B 
- *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre 
+ *@post: Renvoie la valeur 0 si les structure A et B sont identiques ; 1 si A précède B
+ *		 dans l’ordre lexicographique et enfin, –1 si A succède B dans l’ordre
  *		 lexicographique.
  */
 int structcompB(struct clientB* A,struct clientB* B){
@@ -1077,7 +1078,7 @@ int structcompB(struct clientB* A,struct clientB* B){
  *Fonction de tri de tableau de structure clientA.
  *
  *@pre: Le tableau contient au moin une structure initalisee.
- *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique 
+ *@post: Trie le tableau de structure de l'indice inf à sup, dans l'orde alphabetique
  *		 des noms puis des prenoms si 2 noms sont identique.
  */
 void quicksortA(struct clientA* tab, int inf, int sup){
@@ -1392,7 +1393,7 @@ void suprClientA(struct clientA* clientA, int indice, int size){
 	int i;
 
 	//Bloc d'instruction.
-	for(i = 0; i < size - 1; i++){
+	for(i = indice; i < size - 1; i++){
 		structclientAcopy(clientA[i+1], &(clientA[i]));
 	}
 }
@@ -1409,7 +1410,7 @@ void suprClientB(struct clientB* clientB, int indice, int size){
 	int i;
 
 	//Bloc d'instruction.
-	for(i = 0; i < size - 1; i++){
+	for(i = indice; i < size - 1; i++){
 		structclientBcopy(clientB[i+1], &(clientB[i]));
 	}
 }
@@ -1435,37 +1436,40 @@ int gestionBanqueABanqueB(int* sizeA, int* sizeB, struct clientA* clientA, struc
 	system("cls");
 	while(i < *sizeA && j < *sizeB){
 		tempon = structComp(clientA[i], clientB[j]);
-		if(tempon == -1){
+		if(tempon == 1){
 			i++;
 		}
-		else if(tempon = 1){
+		else if(tempon == -1){
 			j++;
 		}
 		else{
 			compteur++;
 			printf("Ce client est present dans les deux banques!\n");
-			printClientA(clientA[j]);
-			printClientB(clientB[i]);
+			printClientA((clientA[i]));
+			printClientB((clientB[j]));
 			printf("Voulez vous le suprimez de la banque A(tapez 1), de la banque B(tapez 2), des deux banques(tapez 3) ou ne rien faire(tapez 4)?\n");
 			choix = enterNumber(4);
 			if(choix == 1){
 				suprClientA(clientA, i, *sizeA);
-				*sizeA--;
+				(*sizeA)--;
 				j++;
 				estModifie = 1;
+				printf("Le client a %ct%c suprim%c de la banque A!\n",130,130,130);
 			}
 			else if(choix == 2){
 				suprClientB(clientB, j, *sizeB);
-				*sizeB--;
+				(*sizeB)--;
 				i++;
 				estModifie = 2;
+				printf("Le client a %ct%c suprim%c de la banque B!\n",130,130,130);
 			}
 			else if(choix == 3){
 				suprClientA(clientA, i, *sizeA);
 				suprClientB(clientB, j, *sizeB);
-				*sizeA--;
-				*sizeB--;
+				(*sizeA)--;
+				(*sizeB)--;
 				estModifie = 3;
+				printf("Le client a %ct%c suprim%c des deux banque!\n",130,130,130);
 			}
 			else{
 				i++;
